@@ -6,9 +6,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -44,7 +41,6 @@ public class Sentio extends Application {
                     .map(Image::new)
                     .findFirst()
                     .ifPresent(imageView::setImage);
-                stage.sizeToScene();
                 event.setDropCompleted(true);
             } else {
                 event.setDropCompleted(false);
@@ -52,11 +48,14 @@ public class Sentio extends Application {
             event.consume();
         });
 
+        imageView.fitWidthProperty().bind(scene.widthProperty());
+        imageView.fitHeightProperty().bind(scene.heightProperty());
+        imageView.setPreserveRatio(true);
+
         stage.setScene(scene);
         stage.setTitle("Sentio");
         stage.getIcons().add(icon);
         stage.sizeToScene();
-        stage.setResizable(false);
         stage.show();
     }
 
