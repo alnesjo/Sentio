@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 group = 'se.kth'
-version = '0.2-SNAPSHOT'
+version = '0.2'
 
 mainClassName = 'se.kth.Sentio'
 sourceCompatibility = 10
