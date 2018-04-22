@@ -12,6 +12,6 @@ Images are loaded by drag and drop.
 
 ### Project plan
 
-* Set up a basic gradle project and define the first milestones:
+* Set up a basic gradle project and define the first milestones.
 * Imlement issues in isolated branches and open pull requests develop.
 * Once a milestone has been reached prepare a release branch to merge into master.
