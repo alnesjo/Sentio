@@ -1,27 +1,25 @@
-package se.kth;
+package se.kth.sentio;
 
-import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.TransferMode;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class Sentio extends Application {
+public class Application extends javafx.application.Application {
 
+    private static String title = "Sentio";
     private static Image icon = new Image("icon.png");
     private static Image drop = new Image("drop.png");
+    private static ImageView imageView = new ImageView(drop);
+    private static StackPane stackPane = new StackPane(imageView);
+    private static Scene scene = new Scene(stackPane);
 
-    public static void main(String[] args) {
-        Application.launch(args);
-    }
-
-    @Override
-    public void start(Stage stage) {
-        ImageView imageView = new ImageView(drop);
-        BorderPane borderPane = new BorderPane(imageView);
-        Scene scene = new Scene(borderPane);
+    static {
+        imageView.fitWidthProperty().bind(scene.widthProperty());
+        imageView.fitHeightProperty().bind(scene.heightProperty());
+        imageView.setPreserveRatio(true);
 
         scene.setOnDragOver(event -> {
             event.consume();
@@ -40,16 +38,19 @@ public class Sentio extends Application {
                 event.setDropCompleted(false);
             }
         });
+    }
 
-        imageView.fitWidthProperty().bind(scene.widthProperty());
-        imageView.fitHeightProperty().bind(scene.heightProperty());
-        imageView.setPreserveRatio(true);
-
-        stage.setScene(scene);
-        stage.setTitle("Sentio");
+    @Override
+    public void start(Stage stage) {
+        stage.setTitle(title);
         stage.getIcons().add(icon);
+        stage.setScene(scene);
         stage.sizeToScene();
         stage.show();
+    }
+
+    public static void main(String[] args) {
+        Application.launch(args);
     }
 
 }
