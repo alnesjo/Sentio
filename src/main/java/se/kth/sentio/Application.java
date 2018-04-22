@@ -1,6 +1,9 @@
 package se.kth.sentio;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
@@ -9,6 +12,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+
 public class Application extends javafx.application.Application {
 
     private static String title = "Sentio";
@@ -16,11 +20,15 @@ public class Application extends javafx.application.Application {
     private static Image drop = new Image("drop.png");
     private static ImageView imageView = new ImageView(drop);
     private static StackPane stackPane = new StackPane(imageView);
-    private static ScrollPane scrollPane = new ScrollPane(stackPane);
+    private static Group group = new Group(stackPane);
+    private static ScrollPane scrollPane = new ScrollPane(group);
     private static Scene scene = new Scene(scrollPane);
 
+    private static DoubleProperty zoomFactor = new SimpleDoubleProperty(1);
+
     static {
-        imageView.setPreserveRatio(true);
+        imageView.scaleXProperty().bind(zoomFactor);
+        imageView.scaleYProperty().bind(zoomFactor);
 
         stackPane.minWidthProperty().bind(Bindings.createDoubleBinding(
             () -> scrollPane.getViewportBounds().getWidth(),
@@ -31,6 +39,13 @@ public class Application extends javafx.application.Application {
             () -> scrollPane.getViewportBounds().getHeight(),
             scrollPane.viewportBoundsProperty()
         ));
+
+        stackPane.setOnScroll(event -> {
+            zoomFactor.set(zoomFactor.get() * (0 < event.getDeltaY() ? 1.1 : 1 / 1.1));
+            event.consume();
+        });
+
+        scrollPane.setPannable(true);
 
         scene.setOnDragOver(event -> {
             event.consume();
