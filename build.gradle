@@ -4,7 +4,7 @@ apply plugin: 'application'
 group = 'se.kth'
 version = '0.3-SNAPSHOT'
 
-mainClassName = 'se.kth.Sentio'
+mainClassName = 'se.kth.sentio.Application'
 sourceCompatibility = 10
 
 jar {
