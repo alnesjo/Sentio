@@ -8,9 +8,6 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.net.URI;
-
 public class Sentio extends Application {
 
     private static Image icon = new Image("icon.png");
@@ -27,25 +24,21 @@ public class Sentio extends Application {
         Scene scene = new Scene(borderPane);
 
         scene.setOnDragOver(event -> {
-            if (event.getDragboard().hasFiles()) {
-                event.acceptTransferModes(TransferMode.COPY);
-            }
             event.consume();
+            if (event.getDragboard().hasUrl()) {
+                event.acceptTransferModes(TransferMode.ANY);
+            }
         });
 
         scene.setOnDragDropped(event -> {
-            if (event.getDragboard().hasFiles()) {
-                event.getDragboard().getFiles().stream()
-                    .map(File::toURI)
-                    .map(URI::toString)
-                    .map(Image::new)
-                    .findFirst()
-                    .ifPresent(imageView::setImage);
+            event.consume();
+            if (event.getDragboard().hasUrl()) {
+                String url = event.getDragboard().getUrl();
+                imageView.setImage(new Image(url));
                 event.setDropCompleted(true);
             } else {
                 event.setDropCompleted(false);
             }
-            event.consume();
         });
 
         imageView.fitWidthProperty().bind(scene.widthProperty());
