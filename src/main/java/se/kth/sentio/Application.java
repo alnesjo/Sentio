@@ -1,6 +1,8 @@
 package se.kth.sentio;
 
+import javafx.beans.binding.Bindings;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.TransferMode;
@@ -14,12 +16,21 @@ public class Application extends javafx.application.Application {
     private static Image drop = new Image("drop.png");
     private static ImageView imageView = new ImageView(drop);
     private static StackPane stackPane = new StackPane(imageView);
-    private static Scene scene = new Scene(stackPane);
+    private static ScrollPane scrollPane = new ScrollPane(stackPane);
+    private static Scene scene = new Scene(scrollPane);
 
     static {
-        imageView.fitWidthProperty().bind(scene.widthProperty());
-        imageView.fitHeightProperty().bind(scene.heightProperty());
         imageView.setPreserveRatio(true);
+
+        stackPane.minWidthProperty().bind(Bindings.createDoubleBinding(
+            () -> scrollPane.getViewportBounds().getWidth(),
+            scrollPane.viewportBoundsProperty()
+        ));
+
+        stackPane.minHeightProperty().bind(Bindings.createDoubleBinding(
+            () -> scrollPane.getViewportBounds().getHeight(),
+            scrollPane.viewportBoundsProperty()
+        ));
 
         scene.setOnDragOver(event -> {
             event.consume();
