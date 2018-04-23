@@ -3,18 +3,16 @@ package se.kth.sentio.navigation;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
-import se.kth.sentio.navigation.zoom.ZoomPane;
+import javafx.scene.layout.Region;
 
 public class NavigationPane extends ScrollPane {
 
-    public NavigationPane(Node node) {
+    public NavigationPane(Region region) {
         super();
 
-        ZoomPane zoomPane = new ZoomPane(node);
-        Group zoomGroup = new Group(zoomPane);
-        setContent(zoomGroup);
+        Group regionGroup = new Group(region);
+        setContent(regionGroup);
 
         DoubleBinding heightBinding = Bindings.createDoubleBinding(
             () -> getViewportBounds().getHeight(),
@@ -26,10 +24,10 @@ public class NavigationPane extends ScrollPane {
             viewportBoundsProperty()
         );
 
-        zoomPane.minWidthProperty().bind(widthBinding);
-        zoomPane.maxWidthProperty().bind(widthBinding);
-        zoomPane.minHeightProperty().bind(heightBinding);
-        zoomPane.maxHeightProperty().bind(heightBinding);
+        region.minWidthProperty().bind(widthBinding);
+        region.maxWidthProperty().bind(widthBinding);
+        region.minHeightProperty().bind(heightBinding);
+        region.maxHeightProperty().bind(heightBinding);
 
         setPannable(true);
     }

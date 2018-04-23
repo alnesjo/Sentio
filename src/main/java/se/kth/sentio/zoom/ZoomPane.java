@@ -1,4 +1,4 @@
-package se.kth.sentio.navigation.zoom;
+package se.kth.sentio.zoom;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -15,11 +15,11 @@ public class ZoomPane extends StackPane {
     public ZoomPane(Node... children) {
         super();
 
-        Group mediaGroup = new Group(children);
-        getChildren().add(mediaGroup);
+        Group scaleGroup = new Group(children);
+        getChildren().add(scaleGroup);
 
-        mediaGroup.scaleXProperty().bind(scaleProperty);
-        mediaGroup.scaleYProperty().bind(scaleProperty);
+        scaleGroup.scaleXProperty().bind(scaleProperty);
+        scaleGroup.scaleYProperty().bind(scaleProperty);
 
         setOnScroll(event -> {
             double k = 0 < event.getDeltaY() ? magnitude : 1 / magnitude;
