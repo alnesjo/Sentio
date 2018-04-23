@@ -6,6 +6,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.TransferMode;
 import javafx.stage.Stage;
 import se.kth.sentio.navigation.NavigationPane;
+import se.kth.sentio.zoom.ZoomPane;
 
 
 public class Application extends javafx.application.Application {
@@ -15,7 +16,8 @@ public class Application extends javafx.application.Application {
     private static Image drop = new Image("drop.png");
 
     private static ImageView imageView = new ImageView(drop);
-    private static NavigationPane navigationPane = new NavigationPane(imageView);
+    private static ZoomPane zoomPane = new ZoomPane(imageView);
+    private static NavigationPane navigationPane = new NavigationPane(zoomPane);
     private static Scene scene = new Scene(navigationPane);
 
     static {
