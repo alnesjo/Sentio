@@ -1,7 +1,6 @@
 package se.kth.sentio.zoom;
 
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.Property;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.ListChangeListener;
 import javafx.scene.Group;

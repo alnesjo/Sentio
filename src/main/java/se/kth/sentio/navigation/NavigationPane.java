@@ -9,10 +9,9 @@ import javafx.scene.layout.Region;
 public class NavigationPane extends ScrollPane {
 
     public NavigationPane(Region region) {
-        super();
+        super(new Group(region));
 
-        Group regionGroup = new Group(region);
-        setContent(regionGroup);
+        setPannable(true);
 
         DoubleBinding heightBinding = Bindings.createDoubleBinding(
             () -> getViewportBounds().getHeight(),
@@ -28,8 +27,6 @@ public class NavigationPane extends ScrollPane {
         region.maxWidthProperty().bind(widthBinding);
         region.minHeightProperty().bind(heightBinding);
         region.maxHeightProperty().bind(heightBinding);
-
-        setPannable(true);
     }
 
 }
