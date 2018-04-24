@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 group = 'se.kth'
-version = '0.3'
+version = '0.4'
 
 mainClassName = 'se.kth.sentio.Application'
 sourceCompatibility = 10
