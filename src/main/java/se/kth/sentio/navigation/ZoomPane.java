@@ -1,4 +1,4 @@
-package se.kth.sentio.zoom;
+package se.kth.sentio.navigation;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;

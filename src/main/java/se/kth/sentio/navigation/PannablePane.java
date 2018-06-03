@@ -6,7 +6,7 @@ import javafx.scene.Group;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Region;
 
-public class NavigationPane extends ScrollPane {
+public class PannablePane extends ScrollPane {
 
     private DoubleBinding heightBinding = Bindings.createDoubleBinding(
         () -> getViewportBounds().getHeight(),
@@ -20,12 +20,12 @@ public class NavigationPane extends ScrollPane {
 
     private Group viewportGroup = new Group();
 
-    private NavigationPane() {
+    private PannablePane() {
         setPannable(true);
         setContent(viewportGroup);
     }
 
-    public NavigationPane(Region region) {
+    public PannablePane(Region region) {
         this();
         setViewport(region);
     }

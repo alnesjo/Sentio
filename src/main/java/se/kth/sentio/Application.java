@@ -1,8 +1,8 @@
 package se.kth.sentio;
 
-import se.kth.sentio.navigation.NavigationPane;
+import se.kth.sentio.navigation.PannablePane;
 import se.kth.sentio.content.MultiView;
-import se.kth.sentio.zoom.ZoomPane;
+import se.kth.sentio.navigation.ZoomPane;
 
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -21,8 +21,8 @@ public class Application extends javafx.application.Application {
 
     private final MultiView multiView = new MultiView(drop);
     private final ZoomPane zoomPane = new ZoomPane(multiView);
-    private final NavigationPane navigationPane = new NavigationPane(zoomPane);
-    private final Scene scene = new Scene(navigationPane);
+    private final PannablePane pannablePane = new PannablePane(zoomPane);
+    private final Scene scene = new Scene(pannablePane);
 
     public Application() {
         zoomPane.setOnDragOver(event -> {
