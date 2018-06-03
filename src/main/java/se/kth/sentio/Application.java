@@ -1,25 +1,30 @@
 package se.kth.sentio;
 
+import se.kth.sentio.navigation.NavigationPane;
+import se.kth.sentio.content.MultiView;
+import se.kth.sentio.zoom.ZoomPane;
+
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.TransferMode;
 import javafx.stage.Stage;
-import se.kth.sentio.navigation.NavigationPane;
-import se.kth.sentio.view.ViewSwitch;
-import se.kth.sentio.zoom.ZoomPane;
+
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class Application extends javafx.application.Application {
 
-    private static String title = "Sentio";
-    private static Image icon = new Image("icon.png");
-    private static Image drop = new Image("drop.png");
+    private static final String title = "Sentio";
+    private static final Image icon = new Image("icon.png");
+    private static final Image drop = new Image("drop.png");
 
-    private static ViewSwitch viewSwitch = new ViewSwitch(drop);
-    private static ZoomPane zoomPane = new ZoomPane(viewSwitch);
-    private static NavigationPane navigationPane = new NavigationPane(zoomPane);
-    private static Scene scene = new Scene(navigationPane);
+    private final MultiView multiView = new MultiView(drop);
+    private final ZoomPane zoomPane = new ZoomPane(multiView);
+    private final NavigationPane navigationPane = new NavigationPane(zoomPane);
+    private final Scene scene = new Scene(navigationPane);
 
-    static {
+    public Application() {
         zoomPane.setOnDragOver(event -> {
             event.consume();
             if (event.getDragboard().hasUrl()) {
@@ -29,13 +34,24 @@ public class Application extends javafx.application.Application {
         zoomPane.setOnDragDropped(event -> {
             event.consume();
             if (event.getDragboard().hasUrl()) {
-                String url = event.getDragboard().getUrl().replaceAll(" ", "%20");
-                viewSwitch.setUrl(url);
-                event.setDropCompleted(true);
+                try {
+                    var url = new URL(event.getDragboard().getUrl());
+                    var file = new File(url.getFile());
+                    var uri = file.toURI().toString();
+                    multiView.setSource(uri);
+                    event.setDropCompleted(true);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                    event.setDropCompleted(false);
+                }
             } else {
                 event.setDropCompleted(false);
             }
         });
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 
     @Override
@@ -45,10 +61,6 @@ public class Application extends javafx.application.Application {
         stage.setScene(scene);
         stage.sizeToScene();
         stage.show();
-    }
-
-    public static void main(String[] args) {
-        Application.launch(args);
     }
 
 }

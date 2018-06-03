@@ -1,4 +1,4 @@
-package se.kth.sentio.view;
+package se.kth.sentio.content;
 
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
@@ -24,39 +24,40 @@ public class MultiView extends Parent {
 
     public MultiView(Image image) {
         this();
-        setView(image);
+        setSource(image);
     }
 
     public MultiView(Media media) {
         this();
-        setView(media);
+        setSource(media);
     }
 
-    public void setView(String uri) {
+    public void setSource(String uri) {
         try {
-            setView(new Media(uri));
+            setSource(new Media(uri));
         } catch (MediaException e) {
-            setView(new Image(uri));
+            e.printStackTrace();
+            setSource(new Image(uri));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void setView(Image image) {
+    public void setSource(Image image) {
         var mediaPlayer = Optional.ofNullable(mediaView.getMediaPlayer());
         mediaPlayer.ifPresent(MediaPlayer::dispose);
         imageView.setImage(image);
         getChildren().setAll(imageView);
     }
 
-    public void setView(Media media) {
+    public void setSource(Media media) {
         var mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         mediaPlayer.play();
-        setView(mediaPlayer);
+        setSource(mediaPlayer);
     }
 
-    public void setView(MediaPlayer mediaPlayer) {
+    public void setSource(MediaPlayer mediaPlayer) {
         mediaView.setMediaPlayer(mediaPlayer);
         getChildren().setAll(mediaView);
     }

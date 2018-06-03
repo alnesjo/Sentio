@@ -2,34 +2,33 @@ package se.kth.sentio.zoom;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.collections.ListChangeListener;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 
+
 public class ZoomPane extends StackPane {
 
-    private double magnitude = 1.1;
+    private static final double magnitude = Math.pow(2, 1.0/8);
 
-    private DoubleProperty scaleProperty = new SimpleDoubleProperty(1);
+    private final DoubleProperty scaleProperty = new SimpleDoubleProperty(1);
 
-    public ZoomPane(Node... children) {
-        super();
+    private Group zoomGroup = new Group();
 
-        getChildren().addListener((ListChangeListener<Node>) change -> {
-            for (Node child : getChildren()) {
-                child.scaleXProperty().bind(scaleProperty);
-                child.scaleYProperty().bind(scaleProperty);
-            }
-        });
-
-        setOnScroll(event -> {
-            double k = 0 < event.getDeltaY() ? magnitude : 1 / magnitude;
+    private ZoomPane() {
+        setOnScroll(scroll -> {
+            var k = 0 < scroll.getDeltaY() ? magnitude : 1.0 / magnitude;
             scaleProperty.set(scaleProperty.get() * k);
-            event.consume();
+            scroll.consume();
         });
-
-        getChildren().add(new Group(children));
+        getChildren().addAll(zoomGroup);
+        zoomGroup.scaleXProperty().bind(scaleProperty);
+        zoomGroup.scaleYProperty().bind(scaleProperty);
+        // TODO Forward children to group by change listener
     }
 
+    public ZoomPane(Node... children) {
+        this();
+        zoomGroup.getChildren().addAll(children);
+    }
 }
